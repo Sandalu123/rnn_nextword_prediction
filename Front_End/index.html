@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Next Word</title>
+</head>
+<body>
+    <div class="form__group field">
+        <input type="input" class="form__field" placeholder="Name" name="name" id='name' required oninput="handelechange()" />
+        <label for="name" class="form__label">Type here ...</label>
+      </div>
+      <div>
+          <button class="btn" id="show">
+              Type Something
+          </button>
+      </div>
+      
+</body>
+</html>
+
+<script>
+    function getFromAPI(url, callback){
+      var obj;
+      fetch(url)
+        .then(res => res.text())
+        .then(data => obj = data)
+        .then(() => callback(obj));
+        var response = obj;
+     }
+    
+    function getData(arrOfObjs){
+        var show = document.getElementById("show");
+        if(arrOfObjs == ""){
+            show.style.borderColor = "red";
+            show.innerText = "No sugestions";
+        }else{
+            show.style.borderColor = "wheat";
+            show.innerText = arrOfObjs;
+        }
+        
+        console.log(arrOfObjs);
+    }
+    
+    function handelechange(){
+        var input = document.getElementById("name");
+        var word = String(input.value);
+        var url = "http://127.0.0.1:5000/predict/"+word;
+        getFromAPI(url, getData);
+    }
+    </script>
