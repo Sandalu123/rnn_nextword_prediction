@@ -4,7 +4,7 @@
 
 This is a POC for next word prediction with API support
 - Python flask back end
-- Javascrpt back end
+- Javascrpt front end
 - ✨Magic ✨
 
 ## Installation
