@@ -5,9 +5,11 @@ import numpy as np
 from flask import Flask
 from flask_cors import CORS, cross_origin
 
+maxWordBuffer = 3
+
 try:
     tokenizer = Tokenizer()
-    data = open('data.txt').read()
+    data = open('Training\data.txt').read()
     corpus = data.lower().split("\n")
     tokenizer.fit_on_texts(corpus)
     total_words = len(tokenizer.word_index) + 1
@@ -48,7 +50,11 @@ def retunEmpty():
 @cross_origin(supports_credentials=True)
 def predict(input):
     if input != "":
-        return next_word(input)
+        word_list = input.split()
+        if(len(word_list) > maxWordBuffer):
+            word_list = word_list[(maxWordBuffer*-1):]
+        newString = ' '.join(word for word in word_list)
+        return next_word(newString)
     else:
         return ""
 
